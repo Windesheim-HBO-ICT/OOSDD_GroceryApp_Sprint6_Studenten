@@ -21,6 +21,8 @@ on:
 jobs:
   buildAndUnitTest:
     runs-on: windows-latest
+    env:
+      DOTNET_SKIP_WORKLOAD_INSTALL: true
 
     steps:
       - uses: actions/checkout@v4
