@@ -37,10 +37,10 @@ jobs:
         run: dotnet --info
 
       - name: Restore NuGet packages
-        run: dotnet restore -f net8.0android
+        run: dotnet restore -f net8.0-android
 
       - name: Build MAUI
-        run: dotnet build -c Release -f net8.0android
+        run: dotnet build -c Release -f net8.0-android
 
       - name: Run unit tests
-        run: dotnet test -c Release --no-restore --no-build --verbosity normal -f net8.0android
+        run: dotnet test -c Release --no-restore --no-build --verbosity normal -f net8.0-android
