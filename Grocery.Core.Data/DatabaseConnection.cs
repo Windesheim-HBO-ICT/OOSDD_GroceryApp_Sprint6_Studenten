@@ -11,7 +11,6 @@ namespace Grocery.Core.Data
         public DatabaseConnection()
         {
             databaseName = ConnectionHelper.ConnectionStringValue("GroceryAppDb");
-            //string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
             // Use Path.Combine with separate arguments to avoid missing path separator issues
             string dbpath = "Data Source=" + Path.Combine(projectDirectory, databaseName);
