@@ -11,47 +11,76 @@
         </Grid>
     </Shell.TitleView>
 
-    <Border Stroke="#C49B33" StrokeThickness="4" Padding="10" Margin="10" HorizontalOptions="Center">
-        <CollectionView ItemsSource="{Binding Products}" Margin="20" HorizontalOptions="Center">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="Naam van het product" Grid.Column="0" FontAttributes="Bold"/>
-                    <Label Text="Voorraad" Grid.Column="1" FontAttributes="Bold"/>
-                    <Label Text="THT datum" Grid.Column="2" HorizontalTextAlignment="End" FontAttributes="Bold"/>
-                    <Label Text="Prijs" Grid.Column="3" HorizontalTextAlignment="End" FontAttributes="Bold"/>
-                </Grid>
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="{Binding Name}"/>
-                        <Label Grid.Column="1" Text="{Binding Stock, StringFormat='{}{0:F0} op voorraad'}" HorizontalOptions="End">
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding Stock}" Value="0">
-                                    <Setter Property="Text" Value="niet op voorraad" />
-                                </DataTrigger>
-                            </Label.Triggers>
-                        </Label>
-                        <Label Grid.Column="2" Text="{Binding ShelfLife}" HorizontalOptions="End"/>
-                        <Label Grid.Column="3" Text="{Binding Price}" HorizontalOptions="End"/>
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="10">
+            <!-- Add new product form -->
+            <Border Stroke="#C49B33" StrokeThickness="2" Padding="10" Margin="10,10,10,0">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Nieuw product" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Naam" VerticalTextAlignment="Center"/>
+                        <Entry Grid.Row="0" Grid.Column="1" Text="{Binding NewName}" Placeholder="Naam"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="Voorraad" VerticalTextAlignment="Center"/>
+                        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding NewStock}" Keyboard="Numeric" Placeholder="0"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="THT gebruiken" VerticalTextAlignment="Center"/>
+                        <Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding UseShelfLife}"/>
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="THT datum" VerticalTextAlignment="Center"/>
+                        <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding NewShelfLifeDate}" IsEnabled="{Binding UseShelfLife}"/>
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="Prijs" VerticalTextAlignment="Center"/>
+                        <Entry Grid.Row="4" Grid.Column="1" Text="{Binding NewPrice}" Keyboard="Numeric" Placeholder="0.00"/>
                     </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Border>
+                    <Button Text="Toevoegen" Command="{Binding AddProductCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- existing list -->
+            <Border Stroke="#C49B33" StrokeThickness="4" Padding="10" Margin="10" HorizontalOptions="Center">
+                <CollectionView ItemsSource="{Binding Products}" Margin="20" HorizontalOptions="Center">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Naam van het product" Grid.Column="0" FontAttributes="Bold"/>
+                            <Label Text="Voorraad" Grid.Column="1" FontAttributes="Bold"/>
+                            <Label Text="THT datum" Grid.Column="2" HorizontalTextAlignment="End" FontAttributes="Bold"/>
+                            <Label Text="Prijs" Grid.Column="3" HorizontalTextAlignment="End" FontAttributes="Bold"/>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding Name}"/>
+                                <Label Grid.Column="1" Text="{Binding Stock, StringFormat='{}{0:F0} op voorraad'}" HorizontalOptions="End">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Stock}" Value="0">
+                                            <Setter Property="Text" Value="niet op voorraad" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Grid.Column="2" Text="{Binding ShelfLife}" HorizontalOptions="End"/>
+                                <Label Grid.Column="3" Text="{Binding Price}" HorizontalOptions="End"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

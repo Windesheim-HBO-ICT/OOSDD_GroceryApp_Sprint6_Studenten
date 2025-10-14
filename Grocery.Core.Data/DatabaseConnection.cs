@@ -1,5 +1,4 @@
-﻿
-using Grocery.Core.Data.Helpers;
+﻿using Grocery.Core.Data.Helpers;
 using Microsoft.Data.Sqlite;
 
 namespace Grocery.Core.Data
@@ -14,7 +13,8 @@ namespace Grocery.Core.Data
             databaseName = ConnectionHelper.ConnectionStringValue("GroceryAppDb");
             //string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string dbpath = "Data Source="+ Path.Combine(projectDirectory + databaseName);
+            // Use Path.Combine with separate arguments to avoid missing path separator issues
+            string dbpath = "Data Source=" + Path.Combine(projectDirectory, databaseName);
             Connection = new SqliteConnection(dbpath);
         }
 
