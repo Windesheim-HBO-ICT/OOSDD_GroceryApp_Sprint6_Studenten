@@ -1,0 +1,43 @@
+name: MAUI Unit Tests
+ 
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'release/**'
+      - infra/runner-toevoegen
+  pull_request:
+    branches:
+      - main
+      - dev
+      - 'feature/**'
+      - 'hotfix/**'
+      - 'release/**'
+      - infra/runner-toevoegen
+ 
+jobs:
+  buildAndUnitTest:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install MAUI Workload
+        run: dotnet workload install maui
+
+      - name: Restore NuGet packages
+        run: dotnet restore 
+
+      - name: Build MAUI
+        run: dotnet build -c Release
+
+      - name: Run unit tests
+        run: dotnet test -c Release --no-restore --no-build --verbosity normal
