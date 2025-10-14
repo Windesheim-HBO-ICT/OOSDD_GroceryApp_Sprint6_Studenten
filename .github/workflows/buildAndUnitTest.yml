@@ -33,6 +33,9 @@ jobs:
       - name: Install MAUI Workload
         run: dotnet workload install maui
 
+      - name: check .net version
+        run: dotnet --info
+
       - name: Restore NuGet packages
         run: dotnet restore 
 
