@@ -12,15 +12,19 @@ namespace Grocery.App.ViewModels
         private readonly IProductService _productService;
         public ObservableCollection<Product> Products { get; set; } = [];
 
-        public ProductViewModel(IProductService productService)
+        [ObservableProperty]
+        Client client;
+
+        public ProductViewModel(IProductService productService, GlobalViewModel global)
         {
             _productService = productService;
+            Client = global.Client;
         }
 
         [RelayCommand]
         async Task GoToNewProduct()
         {
-            await Shell.Current.GoToAsync(nameof(Views.NewProductView));
+            if (Client.Role == Role.Admin) await Shell.Current.GoToAsync(nameof(Views.NewProductView));
         }
 
         public override void OnAppearing()
