@@ -3,27 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:m="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
              xmlns:vm="clr-namespace:Grocery.App.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="Grocery.App.Views.NewProductView"
              x:DataType="vm:NewProductViewModel"
              Title="NewProductView">
+
+    <Shell.TitleView>
+        <Grid>
+            <Label Text="Nieuw product aanmaken" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+
     <StackLayout Padding="20" VerticalOptions="Center">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width=".6*" />
+                <ColumnDefinition Width="0.6*" />
             </Grid.ColumnDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" Text="Naam" HorizontalOptions="Center" VerticalOptions="Center" />
-            <Entry  Grid.Row="0" Grid.Column="2" Placeholder="Naam van het product" Text="{Binding Name}" HorizontalOptions="Center" VerticalOptions="Center" />
-            <Label Grid.Row="1" Grid.Column="0" Text="voorraad" />
-            <Entry Grid.Row="1" Grid.Column="2" Placeholder="Naam van het product" Text="{Binding Stock}" />
+            <Entry  Grid.Row="0" Grid.Column="1" Placeholder="Naam van het product" Text="{Binding Name}"  VerticalOptions="Center" />
+            <Label Grid.Row="1" Grid.Column="0" Text="voorraad" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Entry Grid.Row="1" Grid.Column="1" Placeholder="500" Text="{Binding Stock}" VerticalOptions="Center" />
+            <Label Grid.Row="2" Grid.Column="0" Text="houdbaarheidsdatum" HorizontalOptions="Center" VerticalOptions="Center" />
+            <DatePicker Grid.Row="2" Grid.Column="1" Format="dd-MM-yyyy" Date="{Binding ShelfLife}" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Grid.Row="3" Grid.Column="0" Text="prijs" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Entry Grid.Row="3" Grid.Column="1" Placeholder="0.0" Text="{Binding Price, StringFormat='{0:F2}'}" Keyboard="Numeric" VerticalOptions="Center" />
         </Grid>
         <Button Text="Opslaan" Command="{Binding AddProductCommand}" />
         <Label Text="{Binding ErrorMessage}" TextColor="Red" />

@@ -1,4 +1,5 @@
-﻿using Grocery.Core.Interfaces.Repositories;
+﻿using System.Globalization;
+using Grocery.Core.Interfaces.Repositories;
 using Grocery.Core.Models;
 
 namespace Grocery.Core.Data.Repositories
@@ -56,13 +57,18 @@ namespace Grocery.Core.Data.Repositories
             OpenConnection();
             using (var command = Connection.CreateCommand())
             {
-                command.CommandText = $"INSERT INTO Product (Name, Stock, ShelfLife, Price) VALUES ({item.Name}, {item.Stock}, {item.ShelfLife}, {item.Price}); SELECT last_insert_rowid();";
-                int lastId = command.ExecuteNonQuery();
+                command.CommandText = "INSERT INTO Product (Name, Stock, ShelfLife, Price) VALUES (@name, @stock, @shelfLife, @price);";
+                command.Parameters.AddWithValue("@name", item.Name);
+                command.Parameters.AddWithValue("@stock", item.Stock);
+                command.Parameters.AddWithValue("@shelfLife", item.ShelfLife.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@price", item.Price);
+
+                command.ExecuteNonQuery();
 
                 // Retrieve the inserted product from the database
                 using (var getCommand = Connection.CreateCommand())
                 {
-                    getCommand.CommandText = $"SELECT Id, Name, Stock, ShelfLife, Price FROM Product WHERE Id = {lastId}";
+                    getCommand.CommandText = "SELECT Id, Name, Stock, ShelfLife, Price FROM Product ORDER BY Id DESC LIMIT 1";
                     using (var reader = getCommand.ExecuteReader())
                     {
                         if (reader.Read())
@@ -78,7 +84,6 @@ namespace Grocery.Core.Data.Repositories
                         }
                     }
                 }
-
             }
             return item;
         }
