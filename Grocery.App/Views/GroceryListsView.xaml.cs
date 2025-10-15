@@ -16,7 +16,6 @@ public partial class GroceryListsView : ContentPage
         if (BindingContext is GroceryListViewModel bindingContext)
         {
             bindingContext.OnAppearing();
-
         }
     }
 
