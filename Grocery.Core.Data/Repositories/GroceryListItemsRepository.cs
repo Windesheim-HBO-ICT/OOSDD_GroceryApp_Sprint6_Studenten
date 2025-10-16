@@ -117,9 +117,17 @@ namespace Grocery.Core.Data.Repositories
 
         public GroceryListItem? Update(GroceryListItem item)
         {
-            GroceryListItem? listItem = groceryListItems.FirstOrDefault(i => i.Id == item.Id);
-            listItem = item;
-            return listItem;
+            string updateQuery = $"UPDATE GroceryListItem SET GroceryListId = @GroceryListId, ProductId = @ProductId, Amount = @Amount WHERE Id = {item.Id};";
+            OpenConnection();
+            using (SqliteCommand command = new(updateQuery, Connection))
+            {
+                command.Parameters.AddWithValue("GroceryListId", item.GroceryListId);
+                command.Parameters.AddWithValue("ProductId", item.ProductId);
+                command.Parameters.AddWithValue("Amount", item.Amount);
+                command.ExecuteNonQuery();
+            }
+            CloseConnection();
+            return item;
         }
     }
 }
