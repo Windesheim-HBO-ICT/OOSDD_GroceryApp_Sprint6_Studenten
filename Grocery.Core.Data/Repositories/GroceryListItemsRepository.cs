@@ -72,10 +72,17 @@ namespace Grocery.Core.Data.Repositories
 
         public GroceryListItem Add(GroceryListItem item)
         {
-            int newId = groceryListItems.Max(g => g.Id) + 1;
-            item.Id = newId;
-            groceryListItems.Add(item);
-            return Get(item.Id);
+            string insertQuery = $"INSERT INTO GroceryListItem(GroceryListId, ProductId, Amount) VALUES(@GroceryListId, @ProductId, @Amount) Returning RowId;";
+            OpenConnection();
+            using (SqliteCommand command = new(insertQuery, Connection))
+            {
+                command.Parameters.AddWithValue("GroceryListId", item.GroceryListId);
+                command.Parameters.AddWithValue("ProductId", item.ProductId);
+                command.Parameters.AddWithValue("Amount", item.Amount);
+                item.Id = Convert.ToInt32(command.ExecuteScalar());
+            }
+            CloseConnection();
+            return item;
         }
 
         public GroceryListItem? Delete(GroceryListItem item)
