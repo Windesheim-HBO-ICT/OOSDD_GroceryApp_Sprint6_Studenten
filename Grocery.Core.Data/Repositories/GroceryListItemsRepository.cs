@@ -87,7 +87,11 @@ namespace Grocery.Core.Data.Repositories
 
         public GroceryListItem? Delete(GroceryListItem item)
         {
-            throw new NotImplementedException();
+            string deleteQuery = $"DELETE FROM GroceryListItem WHERE Id = {item.Id};";
+            OpenConnection();
+            Connection.ExecuteNonQuery(deleteQuery);
+            CloseConnection();
+            return item;
         }
 
         public GroceryListItem? Get(int id)
