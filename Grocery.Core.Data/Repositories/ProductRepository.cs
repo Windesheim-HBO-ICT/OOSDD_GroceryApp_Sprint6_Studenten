@@ -59,17 +59,29 @@ namespace Grocery.Core.Data.Repositories
         public Product Add(Product item)
         {
             int recordsAffected;
-            string insertQuery = $"INSERT INTO GroceryList(Name, Stock, ShelfLife, Price) VALUES(@Name, @Stock, @ShelfLife, @Price) Returning RowId;";
+            string insertQuery = $"INSERT INTO Product(Name, Stock, ShelfLife, Price) VALUES(@Name, @Stock, @ShelfLife, @Price);";
             OpenConnection();
             using (SqliteCommand command = new(insertQuery, Connection))
             {
                 command.Parameters.AddWithValue("Name", item.Name);
                 command.Parameters.AddWithValue("Stock", item.Stock);
-                command.Parameters.AddWithValue("ShelfLife", item.ShelfLife);
-                command.Parameters.AddWithValue("Stock", item.Stock);
+                command.Parameters.AddWithValue("ShelfLife", item.ShelfLife.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("Price", item.Price);
 
-                //recordsAffected = command.ExecuteNonQuery();
-                item.Id = Convert.ToInt32(command.ExecuteScalar());
+                command.ExecuteNonQuery();
+                using (var getCommand = Connection.CreateCommand())
+                {
+                    getCommand.CommandText = "SELECT Id, Name, Stock, ShelfLife, Price FROM Product ORDER BY Id DESC LIMIT 1";
+                    using (var reader = getCommand.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            var product = new Product(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), DateOnly.FromDateTime(reader.GetDateTime(3)), reader.GetDecimal(4));
+                            this.GetAll();
+                            item = product;
+                        }
+                    }
+                }
             }
             CloseConnection();
             return item;

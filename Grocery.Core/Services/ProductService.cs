@@ -20,7 +20,11 @@ namespace Grocery.Core.Services
 
         public Product Add(Product item)
         {
-            throw new NotImplementedException();
+            if (item.Price > 0 && !string.IsNullOrWhiteSpace(item.Name))
+            {
+                return _productRepository.Add(item);
+            }
+            return item;
         }
 
         public Product? Delete(Product item)
