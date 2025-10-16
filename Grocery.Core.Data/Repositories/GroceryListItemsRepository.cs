@@ -96,7 +96,23 @@ namespace Grocery.Core.Data.Repositories
 
         public GroceryListItem? Get(int id)
         {
-            return groceryListItems.FirstOrDefault(g => g.Id == id);
+            GroceryListItem? result = null;
+            string selectQuery = $"SELECT Id, GroceryListId, ProductId, Amount FROM GroceryListItem WHERE Id = {id}";
+            OpenConnection();
+            using (SqliteCommand command = new(selectQuery, Connection))
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    int itemId = reader.GetInt32(0);
+                    int groceryListId = reader.GetInt32(1);
+                    int productId = reader.GetInt32(2);
+                    int amount = reader.GetInt32(3);
+                    result = new(itemId, groceryListId, productId, amount);
+                }
+            }
+            CloseConnection();
+            return result;
         }
 
         public GroceryListItem? Update(GroceryListItem item)
