@@ -91,7 +91,7 @@ namespace Grocery.Core.Data.Repositories
 
         public GroceryListItem? Get(int id)
         {
-            string selectQuery = $"SELECT Id, GroceryListId, ProductId, Amount FROM GroceryList WHERE Id = {id}";
+            string selectQuery = $"SELECT Id, GroceryListId, ProductId, Amount FROM GroceryListItems WHERE Id = {id}";
             GroceryListItem? gli = null;
             OpenConnection();
             using (SqliteCommand command = new(selectQuery, Connection)) {
