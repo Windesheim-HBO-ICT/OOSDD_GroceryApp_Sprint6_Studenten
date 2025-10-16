@@ -1,21 +1,31 @@
-﻿using Grocery.Core.Interfaces.Repositories;
+﻿using Grocery.Core.Data.Helpers;
+using Grocery.Core.Interfaces.Repositories;
 using Grocery.Core.Models;
+using Microsoft.Data.Sqlite;
 
 namespace Grocery.Core.Data.Repositories
 {
-    public class GroceryListItemsRepository : IGroceryListItemsRepository
+    public class GroceryListItemsRepository : DatabaseConnection, IGroceryListItemsRepository
     {
-        private readonly List<GroceryListItem> groceryListItems;
+        private readonly List<GroceryListItem> groceryListItems = [];
 
         public GroceryListItemsRepository()
         {
-            groceryListItems = [
-                new GroceryListItem(1, 1, 1, 3),
-                new GroceryListItem(2, 1, 2, 1),
-                new GroceryListItem(3, 1, 3, 4),
-                new GroceryListItem(4, 2, 1, 2),
-                new GroceryListItem(5, 2, 2, 5),
+            CreateTable(@"CREATE TABLE IF NOT EXISTS GroceryListItem (
+                            [Id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            [GroceryListId] INTEGER NOT NULL,
+                            [ProductId] INTEGER NOT NULL,
+                            [Amount] INTEGER NOT NULL)");
+
+            List<string> insertQueries = [
+                @"INSERT OR IGNORE INTO GroceryListItem(Id, GroceryListId, ProductId, Amount) VALUES(1, 1, 1, 3)",
+                @"INSERT OR IGNORE INTO GroceryListItem(Id, GroceryListId, ProductId, Amount) VALUES(2, 1, 2, 1)",
+                @"INSERT OR IGNORE INTO GroceryListItem(Id, GroceryListId, ProductId, Amount) VALUES(3, 1, 3, 4)",
+                @"INSERT OR IGNORE INTO GroceryListItem(Id, GroceryListId, ProductId, Amount) VALUES(4, 2, 1, 2)",
+                @"INSERT OR IGNORE INTO GroceryListItem(Id, GroceryListId, ProductId, Amount) VALUES(5, 2, 2, 5)"
             ];
+            InsertMultipleWithTransaction(insertQueries);
+            GetAll();
         }
 
         public List<GroceryListItem> GetAll()
