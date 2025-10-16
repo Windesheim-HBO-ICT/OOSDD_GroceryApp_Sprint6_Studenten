@@ -30,6 +30,22 @@ namespace Grocery.Core.Data.Repositories
 
         public List<GroceryListItem> GetAll()
         {
+            groceryListItems.Clear();
+            string selectQuery = "SELECT Id, GroceryListId, ProductId, Amount FROM GroceryListItem";
+            OpenConnection();
+            using (SqliteCommand command = new(selectQuery, Connection))
+            {
+                SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    int groceryListId = reader.GetInt32(1);
+                    int productId = reader.GetInt32(2);
+                    int amount = reader.GetInt32(3);
+                    groceryListItems.Add(new(id, groceryListId, productId, amount));
+                }
+            }
+            CloseConnection();
             return groceryListItems;
         }
 
