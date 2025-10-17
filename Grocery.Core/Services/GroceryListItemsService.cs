@@ -24,7 +24,7 @@ namespace Grocery.Core.Services
 
         public List<GroceryListItem> GetAllOnGroceryListId(int groceryListId)
         {
-            List<GroceryListItem> groceryListItems = _groceriesRepository.GetAll().Where(g => g.GroceryListId == groceryListId).ToList();
+            List<GroceryListItem> groceryListItems = _groceriesRepository.GetAllOnGroceryListId(groceryListId);
             FillService(groceryListItems);
             return groceryListItems;
         }
@@ -36,7 +36,7 @@ namespace Grocery.Core.Services
 
         public GroceryListItem? Delete(GroceryListItem item)
         {
-            throw new NotImplementedException();
+            return _groceriesRepository.Delete(item);
         }
 
         public GroceryListItem? Get(int id)
