@@ -4,7 +4,15 @@
              xmlns:vm="clr-namespace:Grocery.App.ViewModels"
              x:Class="Grocery.App.Views.ProductView"
              Title="ProductView">
-    
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nieuw" 
+                     Command="{Binding NavigateToNewProductCommand}"
+                     IconImageSource="{FontImage Glyph='+', 
+                                                 Color=White, 
+                                                 Size=22}"/>
+    </ContentPage.ToolbarItems>
+
     <Shell.TitleView>
         <Grid>
             <Label Text="Producten" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
@@ -47,8 +55,8 @@
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
-                        <Label Grid.Column="2" Text="{Binding ShelfLife}" HorizontalOptions="End"/>
-                        <Label Grid.Column="3" Text="{Binding Price}" HorizontalOptions="End"/>
+                        <Label Grid.Column="2" Text="{Binding ShelfLife, StringFormat='{}{0:dd-MM-yyyy}'}" HorizontalOptions="End"/>
+                        <Label Grid.Column="3" Text="{Binding Price, StringFormat='€{0:F2}'}" HorizontalOptions="End"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Grocery.App.ViewModels"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             x:Class="Grocery.App.Views.NewProductView"
+             x:DataType="viewmodel:NewProductViewModel"
+             Title="Nieuw Product">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Product toevoegen" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   Margin="0,0,0,20"/>
+
+            <!-- Productnaam -->
+            <Label Text="Naam*"/>
+            <Entry Text="{Binding Name}" 
+                   Placeholder="Bijv. Melk"
+                   MaxLength="100"/>
+
+            <!-- Voorraad -->
+            <Label Text="Voorraad"/>
+            <Entry Text="{Binding Stock}" 
+                   Keyboard="Numeric"
+                   Placeholder="Aantal stuks"/>
+
+            <!-- Prijs -->
+            <Label Text="Prijs (€)*"/>
+            <Entry Text="{Binding Price}" 
+                   Keyboard="Numeric"
+                   Placeholder="0.00"/>
+
+            <!-- Houdbaarheidsdatum -->
+            <Label Text="Houdbaarheidsdatum"/>
+            <DatePicker Date="{Binding ExpirationDate}"
+            MinimumDate="{Binding MinimumDate}"
+            Format="dd-MM-yyyy"/>
+
+
+            <Label Text="* = verplicht" 
+                   FontSize="12" 
+                   TextColor="Gray"/>
+
+            <!-- Knoppen -->
+            <Grid ColumnDefinitions="*,*" 
+                  ColumnSpacing="10"
+                  Margin="0,20,0,0">
+
+                <Button Text="Annuleren" 
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="Gray"
+                        Grid.Column="0"/>
+
+                <Button Text="Opslaan" 
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="#D522D6"
+                        Grid.Column="1"/>
+            </Grid>
+
+            <!-- Loading indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                              IsVisible="{Binding IsBusy}"
+                              Color="Blue"
+                              Margin="0,20,0,0"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
