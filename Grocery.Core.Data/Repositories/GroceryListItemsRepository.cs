@@ -32,6 +32,7 @@ namespace Grocery.Core.Data.Repositories
             InsertMultipleWithTransaction(insertQueries);
         }
 
+        // Haal alle items op uit de database
         public List<GroceryListItem> GetAll()
         {
             List<GroceryListItem> items = new();
