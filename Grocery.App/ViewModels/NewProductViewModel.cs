@@ -36,11 +36,15 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         public async Task AddProductAsync()
         {
-            if (TryParseDecimal(price, out decimal parsedPrice) && TryParseInt(stock, out int parsedStock))
+            if (TryParseDecimal(price, out decimal parsedPrice) && TryParseInt(stock, out int parsedStock) && !string.IsNullOrWhiteSpace(name))
             {
                 _productService.Add(new Product(0, name, parsedStock, DateOnly.Parse(ShelfLife.Split(' ')[0]), parsedPrice));
                 // Close current page and navigate back to products page
                 await Shell.Current.GoToAsync("..");
+            }
+            else if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(stock) || string.IsNullOrWhiteSpace(price) )
+            {
+                ErrorMessage = "Vul a.u.b. alle velden in.";
             }
             else
             {
