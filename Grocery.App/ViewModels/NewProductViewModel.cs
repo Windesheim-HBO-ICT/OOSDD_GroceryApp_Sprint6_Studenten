@@ -17,7 +17,7 @@ namespace Grocery.App.ViewModels
         private string name;
 
         [ObservableProperty]
-        private int stock;
+        private string stock;
 
         [ObservableProperty]
         private string shelfLife = DateTime.Today.ToString("dd-MM-yy");
@@ -26,7 +26,7 @@ namespace Grocery.App.ViewModels
         private string price;
 
         [ObservableProperty]
-        private string errorMessage = "";
+        private string errorMessage;
 
         public NewProductViewModel(IProductService productService)
         {
@@ -36,15 +36,15 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         public async Task AddProductAsync()
         {
-            if (TryParseDecimal(price, out decimal parsedPrice))
+            if (TryParseDecimal(price, out decimal parsedPrice) && TryParseInt(stock, out int parsedStock))
             {
-                _productService.Add(new Product(0, name, stock, DateOnly.Parse(ShelfLife.Split(' ')[0]), parsedPrice));
+                _productService.Add(new Product(0, name, parsedStock, DateOnly.Parse(ShelfLife.Split(' ')[0]), parsedPrice));
                 // Close current page and navigate back to products page
                 await Shell.Current.GoToAsync("..");
             }
             else
             {
-                errorMessage = "Ongeldige prijs. Gebruik een punt of komma als decimaalteken.";
+                ErrorMessage = "Ongeldige invoer. Controleer of alles correct is ingevuld.";
             }
         }
 
@@ -62,6 +62,23 @@ namespace Grocery.App.ViewModels
             return decimal.TryParse(
                 normalized,
                 NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,
+                CultureInfo.InvariantCulture,
+                out value);
+        }
+
+        static bool TryParseInt(string input, out int value)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                value = 0;
+                return false;
+            }
+
+            input = input.Trim();
+
+            return int.TryParse(
+                input,
+                NumberStyles.Integer,
                 CultureInfo.InvariantCulture,
                 out value);
         }
