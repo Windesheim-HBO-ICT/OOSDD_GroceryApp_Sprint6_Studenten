@@ -1,10 +1,18 @@
-#GroceryApp sprint5 Studentversie  
-Dit is de startversie voor studenten van sprint 6.  
+#GroceryApp sprint7 Studentversie  
+
+## branche strategie
+- main is voor de (werkende) releases
+- dev is waar features worden samen gevoegd en er intergratie testen kunnen worden gedaan voor release
+- feature/* is een branche voor het uitwerken van 1 usecase/userstory
+- hotfix/* is voor kleine bug fixes die gelijk naar main word doorgevoerd
+- release/* is voor het maken en behouden van releases
+
+## Studentenversie:
  
 UC17 Boodschappenlijst in database is compleet uitgewerkt.  
 
 UC18 BoodschappenlijstItems in database.  
-- Gebruik het voorbeeld van UC17 om zelf de GroceryListItemsRepository tew ijzigen zodat boodschappenlijstitems uit de database komen.  
+- Gebruik het voorbeeld van UC17 om zelf de GroceryListItemsRepository te wijzigen zodat boodschappenlijstitems uit de database komen.  
 
 UC19 Product in database en nieuw product aanmaken --> zelfstandig uitwerken.  
 - Volg UC17 om producten uit de database te kunnen halen.  
@@ -15,8 +23,11 @@ UC19 Product in database en nieuw product aanmaken --> zelfstandig uitwerken.
 - Zorg ervoor dat als er een nieuw product is aangemaakt, deze meteen zichtbaar is in de Productlijst van de ProductView.  
 - Denk aan de registratie van de View, ViewModel en registreren van de route naar NewProductView.  
 
+UC20 Categorieën in database.  
+- Gebruik het voorbeeld van UC17 om zelf de Categorieën te wijzigen zodat boodschappenlijstitems uit de database komen.
 
+UC21 ProductCategorieën in database.  
+- Gebruik het voorbeeld van UC17 om zelf de ProductCategorieën te wijzigen zodat boodschappenlijstitems uit de database komen.
 
-
-
-
+UC22 Client in database.  
+- Gebruik het voorbeeld van UC17 om zelf de Client te wijzigen zodat boodschappenlijstitems uit de database komen.
