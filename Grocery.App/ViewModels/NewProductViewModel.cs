@@ -37,6 +37,11 @@ namespace Grocery.App.ViewModels
         {
             ErrorMessage = string.Empty;
             Message = string.Empty;
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                ErrorMessage = "Naam mag niet leeg zijn, vul opnieuw in";
+                return;
+            }
             if (NameExists(Name))
             {
                 ErrorMessage = "Productnaam bestaat al, vul een andere naam in";
@@ -47,15 +52,27 @@ namespace Grocery.App.ViewModels
                 ErrorMessage = "Voorraad mag niet negatief zijn, vul opnieuw in";
                 return;
             }
+            if (ShelfLife < DateOnly.FromDateTime(DateTime.Today))
+            {
+                ErrorMessage = "Houdbaarheidsdatum mag niet in het verleden liggen, vul opnieuw in";
+                return;
+            }
             if (Price <= 0)
             {
                 ErrorMessage = "Prijs mag niet negatief of nul zijn, vul opnieuw in";
                 return;
             }
-            Product product = new Product(0, Name, Stock, ShelfLife, Price);
-            _productService.Add(product);
-            Message = "Product toegevoegd!";
-            ProductAdded?.Invoke();
+            try
+            {
+                Product product = new Product(0, Name, Stock, ShelfLife, Price);
+                _productService.Add(product);
+                Message = "Product toegevoegd!";
+                ProductAdded?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Toevoegen mislukt: {ex.Message}";
+            }
         }
     }
 }
