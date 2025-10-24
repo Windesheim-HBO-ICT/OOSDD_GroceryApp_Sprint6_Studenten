@@ -26,7 +26,10 @@ namespace Grocery.Core.Data.Repositories
 
         public Product Add(Product item)
         {
-            throw new NotImplementedException();
+            int newId = products.Any() ? products.Max(p => p.Id) + 1 : 1;
+            item.Id = newId;
+            products.Add(item);
+            return item;
         }
 
         public Product? Delete(Product item)
