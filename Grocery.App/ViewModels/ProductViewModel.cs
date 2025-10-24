@@ -24,7 +24,15 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         async Task GoToNewProduct()
         {
-            if (Client.Role == Role.Admin) await Shell.Current.GoToAsync(nameof(Views.NewProductView));
+            // If client is null or not an admin, show a "Not allowed" popup.
+            if (Client == null || Client.Role != Role.Admin)
+            {
+                await Shell.Current.DisplayAlert("Not allowed", "You must be an admin to add products.", "OK");
+                return;
+            }
+
+            // If admin, navigate to NewProductView
+            await Shell.Current.GoToAsync(nameof(Views.NewProductView));
         }
 
         public override void OnAppearing()

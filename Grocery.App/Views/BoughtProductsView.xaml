@@ -41,7 +41,7 @@
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <Label Text="Er zijn geen verkochte producten" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="Dit product staat nog niet in een boodschappenlijst" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     </ContentView>
                 </CollectionView.EmptyView>
             </CollectionView>
