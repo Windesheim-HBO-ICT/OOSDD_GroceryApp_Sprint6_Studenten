@@ -7,6 +7,7 @@ namespace Grocery.App
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(NewProductView), typeof(NewProductView));
             Routing.RegisterRoute(nameof(GroceryListItemsView), typeof(GroceryListItemsView));
             Routing.RegisterRoute(nameof(ProductView), typeof(ProductView));
             Routing.RegisterRoute(nameof(ChangeColorView), typeof(ChangeColorView));

@@ -26,6 +26,7 @@ namespace Grocery.App
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            
             builder.Services.AddSingleton<IGroceryListService, GroceryListService>();
             builder.Services.AddSingleton<IGroceryListItemsService, GroceryListItemsService>();
             builder.Services.AddSingleton<IProductService, ProductService>();
@@ -44,6 +45,8 @@ namespace Grocery.App
             builder.Services.AddSingleton<IProductCategoryRepository, ProductCategoryRepository>();
             builder.Services.AddSingleton<GlobalViewModel>();
 
+            builder.Services.AddTransient<NewProductView>();
+            builder.Services.AddTransient<NewProductViewModel>();
             builder.Services.AddTransient<GroceryListsView>().AddTransient<GroceryListViewModel>();
             builder.Services.AddTransient<GroceryListItemsView>().AddTransient<GroceryListItemsViewModel>();
             builder.Services.AddTransient<ProductView>().AddTransient<ProductViewModel>();
