@@ -12,9 +12,15 @@ namespace Grocery.Core.Data
         public DatabaseConnection()
         {
             databaseName = ConnectionHelper.ConnectionStringValue("GroceryAppDb");
-            //string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string dbpath = "Data Source="+ Path.Combine(projectDirectory + databaseName);
+
+#if MACCATALYST
+            string writableDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            Directory.CreateDirectory(writableDirectory); 
+#else
+            string writableDirectory = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+
+            string dbpath = "Data Source="+ Path.Combine(writableDirectory + databaseName);
             Connection = new SqliteConnection(dbpath);
         }
 
