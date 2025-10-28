@@ -16,12 +16,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Title="Klik op onderstaand pijltje om een product te selecteren:"
-        ItemsSource="{Binding Products}"
-        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
-        SelectedIndexChanged="Picker_SelectedIndexChanged"
-        BackgroundColor="{StaticResource Primary}"
+            ItemsSource="{Binding Products}"
+            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
+            SelectedIndexChanged="Picker_SelectedIndexChanged"
+            IsVisible="{OnPlatform MacCatalyst='False', Default='True'}"
+            BackgroundColor="{StaticResource Primary}"
             TextColor="{StaticResource Secondary}">
         </Picker>
+        <HorizontalStackLayout
+            BindableLayout.ItemsSource="{Binding Products}"
+            VerticalOptions="EndAndExpand"
+            RadioButtonGroup.GroupName="gpFilter"
+            IsVisible="{OnPlatform MacCatalyst='True', Default='False'}" Grid.Column="0" Grid.Row="0" >
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="m:Product">
+                    <RadioButton
+                        Margin="0,0,15,0"
+                        Content="{Binding Name}"
+                        GroupName="gpFilter"
+                        HorizontalOptions="FillAndExpand"
+                        MinimumHeightRequest="60"
+                        Value="{Binding .}"
+                        CheckedChanged="RadioButton_CheckedChanged" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </HorizontalStackLayout>
         <Border Grid.Row="1" Grid.Column="0" Stroke="#C49B33" StrokeThickness="4" Padding="5" Margin="5" HorizontalOptions="Center">
             <CollectionView ItemsSource="{Binding BoughtProductsList}" Margin="5" HorizontalOptions="End" SelectionMode="Single">
                 <CollectionView.ItemsLayout>
