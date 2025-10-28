@@ -25,4 +25,14 @@ public partial class BoughtProductsView : ContentPage
             _viewModel.NewSelectedProduct(product);
         }
     }
+
+    private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var radioButton = (RadioButton)sender;
+        Product? selectedProduct = radioButton.Value as Product;
+        if(selectedProduct != null)
+        {
+            _viewModel.NewSelectedProduct(selectedProduct);
+        }
+    }
 }
